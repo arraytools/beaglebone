@@ -1,0 +1,10 @@
+The 3 essential files that need to be updated to enable wireless access point in BBB (or Raspberry Pi).
+
+Reference: https://learn.adafruit.com/setting-up-a-raspberry-pi-as-a-wifi-access-point/install-software
+
+* isc-dhcp-server is not necessary. Use dnsmasq instead.
+* For hostapda.conf configuration file, I use driver=nl80211 for TP-LINK TL-WN72N adapter. The wpa_passphrase has to be at least 8 characters. The ssid is BBB_AP
+* For some unknown reason, wlan0 static ip is not working. I need to run sudo service networking restart. Also the 1st line to wlan0 is 'auto wlan0', not 'allow-hotplug wlan0'.
+* Use 'sudo service --status-all' to make sure hostapd and dnsmasq services are working (+ sign)
+* Need to make sure the BBB can forward traffic through ethernet. See the section 'Configure Network Address Translation' from Adafruit website. The trick to auto run the 3 commands does not work??
+* Finally, even though hostapd seems to be running, we need to issue the command sudo /usr/sbin/hostapd /etc/hostapd/hostapd.conf to make wifi access point available (ps: it is fine to ignore the message Failed to update rate sets in kernel module). Now everything should work.
